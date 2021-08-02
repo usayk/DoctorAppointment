@@ -1,0 +1,261 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles {
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href='/lib/fullcalendar/core/main.css' rel='stylesheet' />
+    <link href='/lib/fullcalendar/daygrid/main.css' rel='stylesheet' />
+    <link href="~/lib/fullcalendar/timegrid/main.css" rel="stylesheet" />
+    <link href="~/lib/fullcalendar/list/main.css" rel="stylesheet" />
+    <link href="~/lib/fullcalendar/bootstrap/main.css" />
+
+}
+
+<div class="row">
+    <div class="col-md-2">
+        <div id="otherEvents">
+            <p><strong>Sürüklenebilir Etkinlik</strong><p>
+                <div class="fc-event" id="isValid">1.Etkinlik</div><br />
+                <div class="fc-event" id="isNotValid">2.Etkinlik</div><br />
+
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div id="calendar">
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+
+    <script src="~/lib/fullcalendar/core/main.js"></script>
+    <script src='/lib/fullcalendar/daygrid/main.js'></script>
+    <script src="~/lib/fullcalendar/timegrid/main.js"></script>
+    <script src="~/lib/fullcalendar/list/main.js"></script>
+    <script src="~/lib/fullcalendar/interaction/main.js"></script>
+    <script src="~/lib/fullcalendar/bootstrap/main.js"></script>
+    <script src="~/lib/fullcalendar/core/locales/tr.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var draggableEl = document.getElementById('otherEvents');
+
+            var Draggable = FullCalendarInteraction.Draggable;
+            new Draggable(draggableEl, {
+                itemSelector: '.fc-event',
+                eventData: function (eventEl) {
+                    return {
+                        title: eventEl.innerText,
+                        duration: '01:00'
+                    };
+                }
+            });
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                // initialView: 'dayGridMonth'
+                plugins: ['interaction', 'dayGrid', 'timeGrid', 'list', 'bootstrap'],
+                themeSystem: 'bootstrap',
+                bootstrapFontAwesome: {
+                    dayGridMonth: 'calendar',
+                    listWeek: 'fa-list-ul'
+                    //prev:'arrow-right' okişaretiiçin
+                    // next:'fa-chevron-circle-right'
+                },
+                locale: 'tr',
+                header: {
+                    left: 'prev, next, today, addEvent',
+                    center: 'title',
+                    right: 'dayGridMonth, timeGridWeek, timeGridDay, timeGridForFourDay, listWeek'
+                    //listDay, listWeek, listMonth, listYear
+                },
+                footer: {
+                    left: 'getDate',
+                    right: 'timeGridForFourDay'
+                },
+                //scrollTime: '08:30:00',
+                minTime: '08:30:00',
+                maxTime: '17:30:00',
+                slotDuration: '00:30:00',
+                slotLabelInterval: '00:30:00',
+                slotLabelFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                },
+                /* ------------------------------------------------------------------------------*/
+                //handleWindowResize: true,
+                //windowResizeDelay: 1000,
+                //windowResize: function (view) {
+                //    alert('Takvim yeniden boyutlandırıldı.');
+                // },
+                fixedWeekCount: false,
+                showNonCurrentDates: false,
+                contentHeight: 400,
+                //aspectRatio: 3,
+                defaultView: 'timeGridWeek',
+                weekends: true,
+                allDaySlot: false,
+                // firstDay: 0,//Pazardan başlayacak şekilde
+                titleFormat: {
+                    //ayları kısa isme çevirir ve yılı numara olarak gösterir
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                },
+                titleFormatSperetor: ' / ',
+                columnHeaderFormat: {
+                    //month: 'numeric',
+                    weekday: 'long'
+                    //day: 'numeric'
+
+                },
+                views: {
+                    timeGridForFourDay: {
+                        type: 'timeGrid',
+                        //dayCount: 4,
+                        duration: { days: 4 },
+                        buttonText: '4 Gün'
+
+                    }
+                },
+                // buttontext: {
+                //     today: 'bugün gün',
+                //     month: 'ay ve ay',
+                //     week: 'gün gün'
+                // }
+                customButtons: {
+                    addEvent: {
+                        text: 'Ekle',
+                        click: function () {
+                            var newEvent = {
+                                id: 'a',
+                                title: 'New Event',
+                                start: '2021-04-15T15:00:00.000Z',
+                                end: '2021-04-15T15:30:00.000Z'
+                            }
+
+                            calendar.addEvent(newEvent);
+                        }
+                    }
+                },
+                //eventColor: 'red',
+                eventBackgroundColor: '#76CE01',
+                eventBorderColor: '#BA15C1',
+                eventTextColor: '#ffff',
+                eventTimeformat: {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                    /*second: '2-digit'*/
+
+
+                },
+                // displayEventTime : false, == saatleri yok sayar
+                //defaultDate: '2021-05-15', takvim başlangıç tarihi belirleme----------
+                validRange: {
+                    start: '2021-04-01'
+                },
+                timeZone: 'UTC',
+                events: [
+                    {
+                        id: 'x',
+                        title: 'Merhaba',
+                        start: '2021-04-13T09:00:00.000Z',
+                        end: '2021-04-13T10:30:00.000Z'
+                    },
+                    {
+                        id: 'y',
+                        title: 'A merhaba Y',
+                        start: '2021-04-13T11:00:00.000Z',
+                        end: '2021-04-13T12:30:00.000Z'
+                    }
+                ],
+                //eventRender: function (info) {
+                //    console.log(info.event.title); // event, el, İsMirror
+                //},
+                selectable: true,
+                droppable: true,
+                select: function (selectionInfo) {
+                    console.log(selectionInfo);
+
+                },
+                //eventClick: function (info) {
+                //    alert(info.event.title);
+                //},
+                //eventMouseEnter: function (onMouse) {
+                //    alert(onMouse.event.start);
+                //}
+                // eventMouseLeave: function (onLeave) {
+                //    alert(onLeave.event.id);   /*fare butondan çıkınca idyi göster alert şeklinde */
+                //}
+                editable: true,
+                //eventStartEditable: false,
+                //eventDurationEditable: true
+                //eventDragMinDistance: 100,
+                dragRevertDuration: 800,
+                //dragScroll: false, // sürüklüyincescrolu aşapıya indirmez
+                snapDuration: '00:30:00', // değiştirme zamanı ölçüsü
+                //eventOverlap: function (stillEvent, movingEvent) { // filtre
+                //    return stillEvent.allDay && movingEvent.allDay // üst üste binmeyi kapatma
+                //},
+                //eventConstraint: {  // güncelleme zaman dilimi
+                //    startTime: '10:00',
+                //    endTime: '19:00',
+                //    daysOfWeek: [1,2,3]
+                //},
+                //eventAllow: function (dropInfoEvent, draggedEvent) {
+                //    // kontrol
+                //    console.log(dropInfoEvent.start);
+                //   return false
+                //}
+                eventDragStart: function (info) {
+                    console.log('Başladı');
+                },
+                eventDragStop: function (info) {
+                    console.log('Bitti');
+                },
+                eventDrop: function (eventDropInfo) {
+                    console.log('Dropped');  // event, oldEvent //kaydedilirse çalışır
+                },
+                /* ------------------------------------------------------------------------------*/
+                eventResizeStart: function (info) {
+                    console.log('Resize başladı');
+                },
+                eventResizeStop: function (info) {
+                    console.log('Resize qediya');
+                },
+                eventResize: function (eventResizeInfo) {
+                    console.log('Resize edildi'); //yukardaki ile aynı mantık
+                    // eventResizeInfo.revert(); geri alır
+                },
+
+                drop: function (dropInfo) {
+                    console.log('drop Edildi.'); //allDay, date ,datestr, draggEl
+                },
+                eventReceive: function (Info) {
+                    console.log('Recieve Tetiklendi.'); //drageEl, event
+                },
+                eventLeave: function (info) {
+                    console.log('Leave Edildi.'); // Takvimler arasında olaylar sürüklendiğinde çalışır.
+                },
+                dropAccept: '#isValid'
+
+
+            });
+
+            calendar.render();
+            var events = calendar.getEvents();
+            console.log(events);
+
+            var id = 'x';
+            var event = calendar.getEventById(id);
+            console.log(event);
+
+            //calendar.renderEvents();
+
+        });
+    </script>
+}
